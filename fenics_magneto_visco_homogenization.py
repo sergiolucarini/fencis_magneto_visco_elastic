@@ -37,7 +37,7 @@ filename='trial'
 model='s30.xdmf'
     
 # for mechanical stress control, a tensor where comopnents =1 are stress-free
-control=[[1, 0, 0], [1, 1, 0], [1,1,1]]
+control=[[1, 0, 0], [1, 1, 0], [0,0,0]]
 
 # fenics expression for the imposition of the macroscopic deformation gradient if control is 0 in that component
 fmacro=fn.Expression((("0","0","0"),\
@@ -464,11 +464,9 @@ for kstep in range(len(timer)):
     qm_t[:]=qmave[:]
     qqcounter[lowflux==False]+=1
     qmcounter[allinactive==False]+=1
-    dtold=1*dtime
 
     # adjust dt if converged easily
     if(iter_nw<=5):
-        #dtold=1*dtime
         dtime=dtime*1.5
         if dtime>dtmax: dtime=1*dtmax
         print('Increase dt',dtime)
